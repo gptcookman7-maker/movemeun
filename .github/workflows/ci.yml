@@ -1,0 +1,30 @@
+name: Check MoveMenu
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  core-tests:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run nutrition and menu tests
+        run: swift test
+  ios-build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select an installed Xcode 26 SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          XCODE_APP=$(find /Applications -maxdepth 1 -name 'Xcode_26*.app' | sort -V | tail -1)
+          if [ -z "$XCODE_APP" ]; then
+            echo 'This job requires Xcode 26 or newer. Select a compatible macOS runner.'
+            exit 1
+          fi
+          sudo xcode-select --switch "$XCODE_APP/Contents/Developer"
+      - name: Build for iOS Simulator without signing
+        run: xcodebuild -project MoveMenu.xcodeproj -scheme MoveMenu -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
