@@ -38,4 +38,4 @@ Liquid Glass 在 iOS 26 可用，调用系统 `.glass` / `.glassProminent` 按�
 
 ## 当前验证状态
 
-本交付仅能验证文件、配置、资源引用和代码结构；当前环境没有 Swift 或 Xcode，未执行任何 Swift 测试或 iOS 编译。CI 配置提交 GitHub 后才会运行，不能把配置存在视为测试已通过。
+2026-09-06 已修复 Xcode 工程读取崩溃，并通过 GitHub Actions 的全部 16 项核心测试和 Xcode 26.3 iOS Simulator 构建。详见 `VALIDATION.md`。真机健康同步、原生玻璃效果和辅助功能运行验收仍需完成。
